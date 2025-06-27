@@ -16,5 +16,32 @@ class MyForm(Flask):
     country = SelectField('Country', choices=[('IN', 'India'), ('US', 'United States'), ('UK', 'United Kingdom')])
     message = TextAreaField('message', validators=[InputRequired()])
     photo = FileField('Photo')
-    
+
+@app.route('/', methods = ['POST', 'GET'])
+def index():
+    form = MyForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        password = form.password.data
+        remember_me = form.remember_me.data
+        salary = form.salary.data
+        gender = form.gender.data
+        country = form.country.data
+        message = form.message.data
+        photo = form.photo.data.filename
+        return f'''
+            Name: {name} <br>
+            Password: {password} <br>
+            Remember_me: {remember_me} <br>
+            Salary: {salary} <br>
+            Gender: {gender} <br>
+            Country: {country} <br>
+            Message: {message} <br>
+            Photo: {photo} <br>
+            '''
+    return render_template('index.html', form=form)
+
+if (__name__ == '__main__'){
+    app.run(debug = true)
+}
     
